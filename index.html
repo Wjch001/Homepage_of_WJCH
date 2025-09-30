@@ -3,62 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页</title>
+    <title>WJCH的个人主页</title>
     
     <!-- 嵌入 CSS -->
     <style>
+    /* CSS变量定义 - 支持主题切换 */
+    :root {
+        --primary-color: #4CAF50;
+        --secondary-color: #2196F3;
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --card-bg: #f4f4f4;
+        --header-bg: #4CAF50;
+        --footer-bg: #333333;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+
+    .dark-mode {
+        --primary-color: #66BB6A;
+        --secondary-color: #42A5F5;
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --header-bg: #1b5e20;
+        --footer-bg: #000000;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
     /* 基础样式 */
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         margin: 0;
         padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: var(--transition);
     }
 
     header {
-        background-color: #4CAF50;
+        background-color: var(--header-bg);
         color: white;
         padding: 1rem;
         text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
     }
 
     nav ul {
         list-style: none;
         padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
     nav li {
-        display: inline-block;
         margin: 0 1rem;
     }
 
     nav a {
         color: white;
         text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: var(--transition);
+        position: relative;
+    }
+
+    nav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: white;
+        transition: var(--transition);
+    }
+
+    nav a:hover::after {
+        width: 80%;
+        left: 10%;
     }
 
     section {
-        padding: 2rem;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h1, h2 {
+        color: var(--primary-color);
+        transition: var(--transition);
+    }
+
+    h2 {
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
     }
 
     .project-grid {
         display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: 1.5rem;
+        justify-content: center;
     }
 
     .project {
-        flex: 1 1 calc(33% - 1rem);
-        background-color: #f4f4f4;
-        padding: 1rem;
+        flex: 1 1 calc(33% - 1.5rem);
+        min-width: 280px;
+        background-color: var(--card-bg);
+        padding: 1.5rem;
         text-align: center;
         border-radius: 8px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .project:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .project::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .project:hover::before {
+        left: 100%;
     }
 
     .project img {
         max-width: 100%;
         border-radius: 5px;
         margin-bottom: 0.5rem;
+        transition: var(--transition);
+    }
+
+    .project:hover img {
+        transform: scale(1.05);
     }
 
     ul {
@@ -67,10 +170,11 @@
     }
 
     footer {
-        background-color: #333;
+        background-color: var(--footer-bg);
         color: white;
         text-align: center;
-        padding: 1rem;
+        padding: 1.5rem;
+        transition: var(--transition);
     }
 
     #backTop {
@@ -78,19 +182,181 @@
         bottom: 20px;
         right: 20px;
         display: none;
-        padding: 10px;
+        padding: 12px 15px;
         border: none;
         border-radius: 50%;
-        background-color: #4CAF50;
+        background-color: var(--primary-color);
         color: white;
         font-size: 18px;
         cursor: pointer;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        z-index: 99;
+    }
+
+    #backTop:hover {
+        background-color: var(--secondary-color);
+        transform: scale(1.1);
+    }
+
+    button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: bold;
+    }
+
+    button:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    a {
+        color: var(--secondary-color);
+        transition: var(--transition);
+    }
+
+    a:hover {
+        color: var(--primary-color);
+    }
+
+    /* 主题切换按钮 */
+    .theme-toggle {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: 2px solid white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* 响应式导航菜单 */
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        position: absolute;
+        top: 1rem;
+        right: 4rem;
+    }
+
+    /* 打字机效果 */
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid var(--primary-color);
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 5s steps(40, end), blink-caret 0.75s step-end infinite;
+    color: white; /* 确保文字颜色与背景对比 */
+    padding: 0 10px;
+    display: inline-block; /* 确保动画正确应用 */
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary-color) }
+}
+
+    /* 技能条样式 */
+    .skill-item {
+        margin-bottom: 1rem;
+    }
+
+    .skill-name {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .skill-bar {
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .skill-level {
+        height: 100%;
+        background-color: var(--primary-color);
+        border-radius: 5px;
+        transition: width 1.5s ease-in-out;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        nav ul {
+            flex-direction: column;
+            display: none;
+        }
+        
+        nav ul.active {
+            display: flex;
+        }
+        
+        .menu-toggle {
+            display: block;
+        }
+        
+        .project {
+            flex: 1 1 100%;
+        }
+        
+        section {
+            padding: 2rem 1rem;
+        }
+        
+        .theme-toggle {
+            top: 0.5rem;
+            right: 0.5rem;
+        }
+        
+        .menu-toggle {
+            top: 0.5rem;
+            right: 3rem;
+        }
+    }
+
+    /* 卡片入场动画 */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
     </style>
 </head>
 <body>
     <header>
-        <h1>欢迎来到我的主页</h1>
+        <button class="menu-toggle">☰</button>
+        <h1 class="typewriter">欢迎来到我的主页</h1>
         <nav>
             <ul>
                 <li><a href="#about">关于我</a></li>
@@ -99,54 +365,82 @@
                 <li><a href="#contact">联系方式</a></li>
             </ul>
         </nav>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
     </header>
 
     <section id="about">
         <h2>关于我</h2>
-        <p>你好！我是 WJCH，正在学习网页开发。</p>
+        <p>你好！我是 WJCH，正在学习Web前端开发。</p>
         <button id="moreBtn">查看更多</button>
-        <p id="moreText" style="display:none;">我喜欢下棋、打篮球、羽毛球</p>
+        <p id="moreText" style="display:none;">我喜欢阅读、下棋，还有篮球、羽毛球等体育运动。我喜欢探索新技术与新的领域，特别是程序开发和数据科学领域。希望通过不断学习提升自己的技能，未来能够开发出有意义的项目。</p>
+        
     </section>
 
     <section id="skills">
         <h2>技能</h2>
-        <ul>
-            <li>Microsoft Office常用办公软件 ⭐⭐⭐⭐☆</li>
-            <li>Python（数据分析 / 机器学习） ⭐⭐⭐⭐☆</li>
-            <li>网页应用开发（正在学习） ⭐☆☆☆☆</li>
-        </ul>
+        <div class="skill-item">
+            <div class="skill-name">
+                <span>Microsoft Office常用办公软件</span>
+                <span>90%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-level" data-level="90"></div>
+            </div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-name">
+                <span>数据分析 / 机器学习</span>
+                <span>75%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-level" data-level="75"></div>
+            </div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-name">
+                <span>Web前端开发</span>
+                <span>30%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-level" data-level="30"></div>
+            </div>
+        </div>
     </section>
 
     <section id="timeline">
         <h2>学习与经历</h2>
-    <ul>
-        <li><strong>2021.9-2025.6</strong> - 中国医科大学 - 本科</li>
-        <li><strong>2025.9</strong> - 入学攻读研究生</li>
-    </ul>
+        <ul>
+            <li><strong>2021.9-2025.6</strong> - 中国医科大学 - 本科</li>
+            <li><strong>2025.9</strong> - 入学攻读研究生</li>
+        </ul>
 
-    <button id="timelineMoreBtn">查看更多</button>
-    <ul id="timelineMore" style="display:none;">
-        <li><strong>2024</strong> - 辽宁省“iTeach”数字化教育应用创新大赛 - 一等奖</li>
-        <li><strong>2024</strong> - 辽宁省本科大学生计算机设计大赛 - 二等奖</li>
-        <li><strong>2023</strong> - 辽宁省第十六届挑战杯 - 三等奖</li>
-    </ul>
-</section>
+        <button id="timelineMoreBtn">查看更多</button>
+        <ul id="timelineMore" style="display:none;">
+            <li><strong>2024</strong> - 辽宁省"iTeach"数字化教育应用创新大赛 - 一等奖</li>
+            <li><strong>2024</strong> - 辽宁省本科大学生计算机设计大赛 - 二等奖</li>
+            <li><strong>2023</strong> - 辽宁省第十六届挑战杯 - 三等奖</li>
+        </ul>
+    </section>
 
-<script>
-// 学习与经历查看更多按钮
-const timelineMoreBtn = document.getElementById('timelineMoreBtn');
-const timelineMore = document.getElementById('timelineMore');
-
-timelineMoreBtn.addEventListener('click', () => {
-    if (timelineMore.style.display === 'none') {
-        timelineMore.style.display = 'block';
-        timelineMoreBtn.textContent = '收起';
-    } else {
-        timelineMore.style.display = 'none';
-        timelineMoreBtn.textContent = '查看更多';
-    }
-});
-</script>
+    <section id="projects">
+        <h2>项目展示</h2>
+        <div class="project-grid">
+            <div class="project fade-in">
+                <img src="https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=项目1" alt="项目1">
+                <h3>个人网站开发</h3>
+                <p>使用HTML、CSS和JavaScript创建的响应式个人网站</p>
+            </div>
+            <div class="project fade-in">
+                <img src="https://via.placeholder.com/300x200/2196F3/FFFFFF?text=项目2" alt="项目2">
+                <h3>数据分析项目</h3>
+                <p>使用Python和Pandas进行的数据分析与可视化项目</p>
+            </div>
+            <div class="project fade-in">
+                <img src="https://via.placeholder.com/300x200/FF9800/FFFFFF?text=项目3" alt="项目3">
+                <h3>待办事项应用</h3>
+                <p>基于JavaScript的简单待办事项管理应用</p>
+            </div>
+        </div>
     </section>
 
     <section id="contact">
@@ -157,7 +451,7 @@ timelineMoreBtn.addEventListener('click', () => {
     </section>
 
     <footer>
-        <p>&copy; 2025 WJCH</p>
+        <p>&copy; 2025 WJCH - 个人主页</p>
     </footer>
 
     <!-- 返回顶部按钮 -->
@@ -165,7 +459,47 @@ timelineMoreBtn.addEventListener('click', () => {
 
     <!-- 嵌入 JS -->
     <script>
-    // 点击按钮显示/隐藏更多信息
+    // 主题切换功能
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // 检查本地存储或系统偏好
+    if (localStorage.getItem('theme') === 'dark' || 
+        (localStorage.getItem('theme') !== 'light' && prefersDarkScheme.matches)) {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            themeToggle.textContent = '☀️';
+        } else {
+            localStorage.setItem('theme', 'light');
+            themeToggle.textContent = '🌙';
+        }
+    });
+
+    // 响应式导航菜单
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('nav ul');
+    
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+
+    // 点击导航链接后关闭移动菜单
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+
+    // 关于我查看更多按钮
     const moreBtn = document.getElementById('moreBtn');
     const moreText = document.getElementById('moreText');
 
@@ -179,6 +513,20 @@ timelineMoreBtn.addEventListener('click', () => {
         }
     });
 
+    // 学习与经历查看更多按钮
+    const timelineMoreBtn = document.getElementById('timelineMoreBtn');
+    const timelineMore = document.getElementById('timelineMore');
+
+    timelineMoreBtn.addEventListener('click', () => {
+        if (timelineMore.style.display === 'none') {
+            timelineMore.style.display = 'block';
+            timelineMoreBtn.textContent = '收起';
+        } else {
+            timelineMore.style.display = 'none';
+            timelineMoreBtn.textContent = '查看更多';
+        }
+    });
+
     // 返回顶部按钮
     const backTop = document.getElementById('backTop');
     window.addEventListener('scroll', () => {
@@ -188,8 +536,50 @@ timelineMoreBtn.addEventListener('click', () => {
             backTop.style.display = 'none';
         }
     });
+    
     backTop.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 技能条动画
+    document.addEventListener('DOMContentLoaded', () => {
+        const skillLevels = document.querySelectorAll('.skill-level');
+        skillLevels.forEach(skill => {
+            const level = skill.getAttribute('data-level');
+            skill.style.width = level + '%';
+        });
+    });
+
+    // 滚动动画 - 元素进入视口时显示
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const fadeInObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    fadeElements.forEach(element => {
+        fadeInObserver.observe(element);
+    });
+
+    // 平滑滚动到锚点
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
     </script>
 </body>
